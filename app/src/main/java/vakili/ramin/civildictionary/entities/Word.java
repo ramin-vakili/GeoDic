@@ -11,6 +11,17 @@ public class Word {
         this.meaning = meaning;
     }
 
+    public Word() {
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setMeaning(String meaning) {
+        this.meaning = meaning;
+    }
+
     public String getWord() {
         return word;
     }
