@@ -18,12 +18,14 @@ import java.util.ArrayList;
 import vakili.ramin.civildictionary.R;
 import vakili.ramin.civildictionary.adapters.SuggestionsAdapter;
 import vakili.ramin.civildictionary.database.DataBaseHelper;
+import vakili.ramin.civildictionary.entities.Word;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher, SuggestionsAdapter.ClickListener {
 
     private DataBaseHelper helper;
     private RecyclerView recyclerView;
     private SuggestionsAdapter adapter;
+    private EditText editText;
     private TextView textViewResult;
     ArrayList<String> suggestions = new ArrayList<>();
 
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void findViewByIDs() {
-        EditText editText = (EditText) findViewById(R.id.editText);
+        editText = (EditText) findViewById(R.id.editText);
         ImageButton imageButtonSearch = (ImageButton) findViewById(R.id.imageButtonSearch);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         textViewResult = (TextView) findViewById(R.id.textViewResult);
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
+        searchWord(editText.getText().toString());
     }
 
     @Override
@@ -83,9 +85,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onItemClicked(String word) {
+        searchWord(word);
+    }
+
+    private void searchWord(String word) {
         suggestions.clear();
         adapter.setSuggestions(suggestions);
         adapter.notifyDataSetChanged();
-        textViewResult.setText(word);
+        Word searchWord = helper.searchWord(word);
+
+        if (searchWord != null){
+            String res = word +
+                    "\n\n" +
+                    searchWord.getMeaning();
+            textViewResult.setText(res);
+        }else {
+            textViewResult.setText(getResources().getString(R.string.not_found));
+        }
     }
 }

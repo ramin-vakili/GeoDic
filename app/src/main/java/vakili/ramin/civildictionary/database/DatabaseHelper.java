@@ -189,4 +189,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return suggestions;
     }
 
+    public Word searchWord(String word){
+        ArrayList<Word> words = new ArrayList<>();
+        String query = "SELECT DISTINCT * FROM words_table WHERE UPPER(word) LIKE UPPER('" + word + "')";
+        Cursor cursor = myDataBase.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Word w = new Word(word, cursor.getString(cursor.getColumnIndex("meaning")));
+                words.add(w);
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+        if (words.isEmpty()){
+            return null;
+        }else {
+            return words.get(0);
+        }
+
+    }
+
 }

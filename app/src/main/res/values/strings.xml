@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CivilDictionary</string>
+    <string name="not_found">Not Found!</string>
 </resources>
