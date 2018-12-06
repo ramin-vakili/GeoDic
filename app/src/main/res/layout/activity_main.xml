@@ -25,6 +25,7 @@
             android:id="@+id/imageButtonSearch"
             android:background="@drawable/ic_search_black"
             android:layout_margin="@dimen/button_margin"
+            android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -35,12 +36,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textViewResult"
-            android:textDirection="anyRtl"
-            android:padding="@dimen/activity_horizontal_margin"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/speakerLayout"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewPhonetic"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonVoice"
+                    android:background="@drawable/ic_speaker_black"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewResult"
+                android:textDirection="anyRtl"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SuggestionsAdapter adapter;
     private EditText editText;
     private TextView textViewResult;
+    private ImageButton imageButtonVoice;
+    private LinearLayout speakerLayout;
+    private TextView textViewPhonetic;
     ArrayList<String> suggestions = new ArrayList<>();
 
     @Override
@@ -55,13 +59,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageButton imageButtonSearch = (ImageButton) findViewById(R.id.imageButtonSearch);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         textViewResult = (TextView) findViewById(R.id.textViewResult);
+        imageButtonVoice = (ImageButton) findViewById(R.id.imageButtonVoice);
+        speakerLayout = (LinearLayout) findViewById(R.id.speakerLayout);
+        textViewPhonetic = (TextView) findViewById(R.id.textViewPhonetic);
         imageButtonSearch.setOnClickListener(this);
         editText.addTextChangedListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        searchWord(editText.getText().toString());
+        switch (view.getId()){
+            case R.id.imageButtonSearch:
+                searchShowResult(editText.getText().toString());
+                break;
+
+            case R.id.imageButtonVoice:
+                break;
+        }
     }
 
     @Override
@@ -85,26 +99,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onItemClicked(String word) {
-        searchWord(word);
+        editText.setText(word);
+        searchShowResult(word);
     }
 
-    private void searchWord(String word) {
+    private void searchShowResult(String word) {
         suggestions.clear();
         adapter.setSuggestions(suggestions);
         adapter.notifyDataSetChanged();
         Word searchWord = helper.searchWord(word);
 
         if (searchWord != null){
-            String res = word +
-                    "\n\n" +
-                    searchWord.getMeaning() +
-                    "\n\n" +
-                    searchWord.getVoice() +
-                    "\n\n" +
-                    searchWord.getPhonetic() +
-                    "\n\n" +
-                    searchWord.isFavorite();
-            textViewResult.setText(res);
+            if (searchWord.getPhonetic().equals("")){
+                speakerLayout.setVisibility(View.GONE);
+            }else {
+                speakerLayout.setVisibility(View.VISIBLE);
+                textViewPhonetic.setText(searchWord.getPhonetic());
+            }
+            textViewResult.setText(searchWord.getMeaning());
         }else {
             textViewResult.setText(getResources().getString(R.string.not_found));
         }
