@@ -6,7 +6,7 @@ package vakili.ramin.civildictionary.entities;
  */
 public class Word {
     private String word, meaning, voice="", image="", phonetic="";
-    private String[] voicesFilePath;
+    private String[] voicesFilePath = new String[0];
     private int isFavorite;
 
     public Word(String word, String meaning, String voice, String phonetic, int isFavorite) {
