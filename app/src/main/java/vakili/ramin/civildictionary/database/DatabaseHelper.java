@@ -166,6 +166,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 Word word = new Word();
                 word.setWord(cursor.getString(cursor.getColumnIndex("word")));
                 word.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+                word.setVoice(cursor.getString(cursor.getColumnIndex("voice")));
+                word.setPhonetic(cursor.getString(cursor.getColumnIndex("phonetic")));
+                word.setFavorite(cursor.getInt(cursor.getColumnIndex("favorite")));
                 listItems.add(word);
             }
             while (cursor.moveToNext());
@@ -177,7 +180,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> searchSuggestions(String subString){
         ArrayList<String> suggestions = new ArrayList<>();
-        String query = "SELECT DISTINCT * FROM words_table WHERE UPPER(word) LIKE UPPER('" + subString + "%')";
+        String query = "SELECT DISTINCT word FROM words_table WHERE UPPER(word) LIKE UPPER('" + subString + "%')";
         Cursor cursor = myDataBase.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
@@ -195,7 +198,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor cursor = myDataBase.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                Word w = new Word(word, cursor.getString(cursor.getColumnIndex("meaning")));
+                Word w = new Word();
+                w.setWord(cursor.getString(cursor.getColumnIndex("word")));
+                w.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+                w.setVoice(cursor.getString(cursor.getColumnIndex("voice")));
+                w.setPhonetic(cursor.getString(cursor.getColumnIndex("phonetic")));
+                w.setFavorite(cursor.getInt(cursor.getColumnIndex("favorite")));
                 words.add(w);
             }
             while (cursor.moveToNext());

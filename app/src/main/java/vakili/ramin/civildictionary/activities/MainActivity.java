@@ -97,7 +97,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (searchWord != null){
             String res = word +
                     "\n\n" +
-                    searchWord.getMeaning();
+                    searchWord.getMeaning() +
+                    "\n\n" +
+                    searchWord.getVoice() +
+                    "\n\n" +
+                    searchWord.getPhonetic() +
+                    "\n\n" +
+                    searchWord.isFavorite();
             textViewResult.setText(res);
         }else {
             textViewResult.setText(getResources().getString(R.string.not_found));
