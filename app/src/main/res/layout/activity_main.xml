@@ -50,6 +50,7 @@
 
                 <TextView
                     android:id="@+id/textViewPhonetic"
+                    android:visibility="invisible"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
@@ -57,6 +58,7 @@
                 <ImageButton
                     android:id="@+id/imageButtonVoice"
                     android:background="@drawable/ic_speaker_black"
+                    android:visibility="invisible"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:layout_width="@dimen/icon_size"
@@ -76,7 +78,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
 
     </FrameLayout>
 

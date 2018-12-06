@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -20,8 +19,10 @@ import vakili.ramin.civildictionary.R;
 import vakili.ramin.civildictionary.adapters.SuggestionsAdapter;
 import vakili.ramin.civildictionary.database.DataBaseHelper;
 import vakili.ramin.civildictionary.entities.Word;
+import vakili.ramin.civildictionary.util.VoicePlayer;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher, SuggestionsAdapter.ClickListener {
+public class MainActivity extends AppCompatActivity implements
+        View.OnClickListener, TextWatcher, SuggestionsAdapter.ClickListener {
 
     private DataBaseHelper helper;
     private RecyclerView recyclerView;
@@ -29,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText editText;
     private TextView textViewResult;
     private ImageButton imageButtonVoice;
-    private LinearLayout speakerLayout;
     private TextView textViewPhonetic;
+    private VoicePlayer voicePlayer;
     ArrayList<String> suggestions = new ArrayList<>();
 
     @Override
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             helper.createDataBase();
             helper.openDataBase();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -60,21 +62,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         textViewResult = (TextView) findViewById(R.id.textViewResult);
         imageButtonVoice = (ImageButton) findViewById(R.id.imageButtonVoice);
-        speakerLayout = (LinearLayout) findViewById(R.id.speakerLayout);
         textViewPhonetic = (TextView) findViewById(R.id.textViewPhonetic);
         imageButtonSearch.setOnClickListener(this);
+        imageButtonVoice.setOnClickListener(this);
         editText.addTextChangedListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.imageButtonSearch:
                 searchShowResult(editText.getText().toString());
                 break;
 
             case R.id.imageButtonVoice:
+                playVoices();
                 break;
+        }
+    }
+
+    private void playVoices() {
+        try {
+            voicePlayer.playVoices();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -109,15 +120,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.notifyDataSetChanged();
         Word searchWord = helper.searchWord(word);
 
-        if (searchWord != null){
-            if (searchWord.getPhonetic().equals("")){
-                speakerLayout.setVisibility(View.GONE);
-            }else {
-                speakerLayout.setVisibility(View.VISIBLE);
+        if (searchWord != null) {
+            if (searchWord.getPhonetic().equals("")) {
+                textViewPhonetic.setVisibility(View.INVISIBLE);
+            } else {
+                textViewPhonetic.setVisibility(View.VISIBLE);
                 textViewPhonetic.setText(searchWord.getPhonetic());
             }
+
+            String[] voicesFilePath = searchWord.getVoicesFilePath();
+
+            if (voicesFilePath.length>0){
+                imageButtonVoice.setVisibility(View.VISIBLE);
+                try {
+                    voicePlayer = new VoicePlayer(voicesFilePath, this);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+            }else {
+                imageButtonVoice.setVisibility(View.INVISIBLE);
+            }
+
             textViewResult.setText(searchWord.getMeaning());
-        }else {
+        } else {
             textViewResult.setText(getResources().getString(R.string.not_found));
         }
     }

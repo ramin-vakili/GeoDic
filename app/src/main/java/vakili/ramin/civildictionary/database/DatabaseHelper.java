@@ -163,12 +163,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor cursor = myDataBase.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                Word word = new Word();
-                word.setWord(cursor.getString(cursor.getColumnIndex("word")));
-                word.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
-                word.setVoice(cursor.getString(cursor.getColumnIndex("voice")));
-                word.setPhonetic(cursor.getString(cursor.getColumnIndex("phonetic")));
-                word.setFavorite(cursor.getInt(cursor.getColumnIndex("favorite")));
+                Word word = new Word(cursor.getString(cursor.getColumnIndex("word")),
+                        cursor.getString(cursor.getColumnIndex("meaning")),
+                        cursor.getString(cursor.getColumnIndex("voice")),
+                        cursor.getString(cursor.getColumnIndex("phonetic")),
+                        cursor.getInt(cursor.getColumnIndex("favorite")));
                 listItems.add(word);
             }
             while (cursor.moveToNext());
@@ -198,12 +197,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor cursor = myDataBase.rawQuery(query, null);
         if (cursor.moveToFirst()) {
             do {
-                Word w = new Word();
-                w.setWord(cursor.getString(cursor.getColumnIndex("word")));
-                w.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
-                w.setVoice(cursor.getString(cursor.getColumnIndex("voice")));
-                w.setPhonetic(cursor.getString(cursor.getColumnIndex("phonetic")));
-                w.setFavorite(cursor.getInt(cursor.getColumnIndex("favorite")));
+                Word w = new Word(cursor.getString(cursor.getColumnIndex("word")),
+                        cursor.getString(cursor.getColumnIndex("meaning")),
+                        cursor.getString(cursor.getColumnIndex("voice")),
+                        cursor.getString(cursor.getColumnIndex("phonetic")),
+                        cursor.getInt(cursor.getColumnIndex("favorite")));
                 words.add(w);
             }
             while (cursor.moveToNext());
