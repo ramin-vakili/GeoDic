@@ -1,86 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.MainActivity">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize">
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/imageButtonSearch"
-            android:background="@drawable/ic_search_black"
-            android:layout_margin="@dimen/button_margin"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size" />
+            <TextView
+                android:text="@string/app_name"
+                android:textColor="@color/textWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <FrameLayout
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:background="@drawable/elevation_shadow_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/elevation_height"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <com.andexert.library.RippleView
+                android:id="@+id/rippleButtonSearch"
+                app:rv_color="@color/colorSelected"
+                app:rv_zoom="true"
+                app:rv_rippleDuration="100"
+                app:rv_ripplePadding="0dp"
+                rv_centered="true"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size">
+
+                <ImageButton
+                    android:id="@+id/imageButtonSearch"
+                    android:background="@drawable/ic_search_black"
+                    android:clickable="false"
+                    android:layout_margin="@dimen/button_margin"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size" />
+
+            </com.andexert.library.RippleView>
+
+
+        </LinearLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/speakerLayout"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/speakerLayout"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewPhonetic"
+                        android:visibility="invisible"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                    <com.andexert.library.RippleView
+                        android:id="@+id/rippleButtonVoice"
+                        app:rv_color="@color/colorSelected"
+                        app:rv_zoom="true"
+                        app:rv_rippleDuration="80"
+                        rv_centered="true"
+                        android:visibility="invisible"
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size">
+
+                        <ImageButton
+                            android:id="@+id/imageButtonVoice"
+                            android:background="@drawable/ic_speaker_black"
+                            android:layout_width="@dimen/icon_size"
+                            android:layout_height="@dimen/icon_size" />
+
+                    </com.andexert.library.RippleView>
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textViewPhonetic"
-                    android:visibility="invisible"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
-
-                <ImageButton
-                    android:id="@+id/imageButtonVoice"
-                    android:background="@drawable/ic_speaker_black"
-                    android:visibility="invisible"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size" />
+                    android:id="@+id/textViewResult"
+                    android:textDirection="anyRtl"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textViewResult"
-                android:textDirection="anyRtl"
-                android:padding="@dimen/activity_horizontal_margin"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
 
-        </LinearLayout>
+    </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
-    </FrameLayout>
 
 </LinearLayout>

@@ -4,12 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.andexert.library.RippleView;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements
     private SuggestionsAdapter adapter;
     private EditText editText;
     private TextView textViewResult;
-    private ImageButton imageButtonVoice;
+    private RippleView rippleButtonVoice;
     private TextView textViewPhonetic;
     private VoicePlayer voicePlayer;
     ArrayList<String> suggestions = new ArrayList<>();
@@ -57,25 +60,26 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void findViewByIDs() {
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         editText = (EditText) findViewById(R.id.editText);
-        ImageButton imageButtonSearch = (ImageButton) findViewById(R.id.imageButtonSearch);
+        RippleView rippleButtonSearch = (RippleView) findViewById(R.id.rippleButtonSearch);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         textViewResult = (TextView) findViewById(R.id.textViewResult);
-        imageButtonVoice = (ImageButton) findViewById(R.id.imageButtonVoice);
+        rippleButtonVoice = (RippleView) findViewById(R.id.rippleButtonVoice);
         textViewPhonetic = (TextView) findViewById(R.id.textViewPhonetic);
-        imageButtonSearch.setOnClickListener(this);
-        imageButtonVoice.setOnClickListener(this);
+        rippleButtonSearch.setOnClickListener(this);
+        rippleButtonVoice.setOnClickListener(this);
         editText.addTextChangedListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.imageButtonSearch:
+            case R.id.rippleButtonSearch:
                 searchShowResult(editText.getText().toString());
                 break;
 
-            case R.id.imageButtonVoice:
+            case R.id.rippleButtonVoice:
                 playVoices();
                 break;
         }
@@ -115,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void searchShowResult(String word) {
+        if (editText.getText().toString().equals("")){
+            return;
+        }
         suggestions.clear();
         adapter.setSuggestions(suggestions);
         adapter.notifyDataSetChanged();
@@ -131,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements
             String[] voicesFilePath = searchWord.getVoicesFilePath();
 
             if (voicesFilePath.length>0){
-                imageButtonVoice.setVisibility(View.VISIBLE);
+                rippleButtonVoice.setVisibility(View.VISIBLE);
                 try {
                     voicePlayer = new VoicePlayer(voicesFilePath, this);
                 }catch (Exception e){
@@ -139,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements
                 }
 
             }else {
-                imageButtonVoice.setVisibility(View.INVISIBLE);
+                rippleButtonVoice.setVisibility(View.INVISIBLE);
             }
 
             textViewResult.setText(searchWord.getMeaning());
